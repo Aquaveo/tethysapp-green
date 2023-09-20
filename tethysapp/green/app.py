@@ -1,5 +1,7 @@
 from tethys_sdk.base import TethysAppBase, url_map_maker
-from tethys_sdk.app_settings import CustomSetting, PersistentStoreDatabaseSetting, SpatialDatasetServiceSetting
+from tethys_sdk.app_settings import (
+    CustomSetting, PersistentStoreDatabaseSetting, SpatialDatasetServiceSetting, PersistentStoreConnectionSetting
+)
 
 
 class Green(TethysAppBase):
@@ -20,6 +22,7 @@ class Green(TethysAppBase):
 
     DATABASE_NAME = 'primary_db'
     GEOSERVER_NAME = 'primary_geoserver'
+    MODEL_DB_CON = 'model_db_con'
     
     def custom_settings(self):
         """Custom settings."""
@@ -42,6 +45,11 @@ class Green(TethysAppBase):
                 initializer='green.models.init_primary_db',
                 required=True,
                 spatial=True,
+            ),
+            PersistentStoreConnectionSetting(
+                name=self.MODEL_DB_CON,
+                description='Database connection for model dbs.',
+                required=True
             ),
         )
         return ps_settings
@@ -70,14 +78,60 @@ class Green(TethysAppBase):
 
     def url_maps(self):
         """Add controllers"""
+        from tethysext.atcore.services.app_users.permissions_manager import AppPermissionsManager
+        from tethysext.atcore.urls import app_users, spatial_reference, resources
+        from tethysapp.green.models import GreenOrganization, GsshaModel
+        from tethysapp.green.controllers.gssha_models import (
+            GsshaModelDetails, ManageGsshaModels, ModifyGsshaModel
+        )
         UrlMap = url_map_maker(self.root_url)
 
-        url_maps = (
+        url_maps = []
+        url_maps.append(
             UrlMap(
                 name='home',
                 url='green',
                 controller='green.controllers.home'
             ),
         )
+
+        app_users_urls = app_users.urls(
+            url_map_maker=UrlMap,
+            app=self,
+            persistent_store_name=self.DATABASE_NAME,
+            base_template='green/base.html',
+            custom_models=(
+                GsshaModel,
+                GreenOrganization,
+            ),
+            custom_controllers=(
+                ModifyGsshaModel,
+                ManageGsshaModels
+            ),
+            custom_permissions_manager=AppPermissionsManager
+        )
+        url_maps.extend(app_users_urls)
+
+        url_maps.extend((
+            UrlMap(
+                name='gssha_model_details_tab',
+                url='green/gssha-models/{resource_id}/get-tab/{tab_slug}',
+                controller=GsshaModelDetails.as_controller(
+                    _app=self,
+                    _persistent_store_name=self.DATABASE_NAME,
+                    _Organization=GreenOrganization,
+                    _Resource=GsshaModel,
+                    _PermissionsManager=AppPermissionsManager
+                ),
+                regex=['[0-9A-Za-z-_.]+', '[0-9A-Za-z-_.{}]+']
+            ),
+        ))
+
+        spatial_reference_urls = spatial_reference.urls(
+            url_map_maker=UrlMap,
+            app=self,
+            persistent_store_name='primary_db'
+        )
+        url_maps.extend(spatial_reference_urls)
 
         return url_maps
