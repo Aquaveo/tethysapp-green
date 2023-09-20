@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from tethys_sdk.permissions import login_required
-from tethys_sdk.gizmos import Button, CesiumMapView, MVLayer
+from tethys_sdk.gizmos import CesiumMapView, MVLayer
+from tethysapp.green.app import Green as app
+
 
 @login_required()
 def home(request):
     """
     Controller for the app home page.
     """
-    cesium_ion_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3ZTJiMWRlNy0zODQ4LTRiZjItYjc2Ni0zNmQzMTQ1NzRlMWUiLCJpZCI6MjE3MzAsImlhdCI6MTY5NTE2NDQ1M30.eXHTikmSsCH5rYpG2O_Ii0qb5Vdpu2fOV8S82YDptTM'
+    cesium_ion_token = app.get_custom_setting('cesium_api_key')
     
     watershed = MVLayer(
         source='ImageWMS',
