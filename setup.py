@@ -12,6 +12,7 @@ dependencies = []
 resource_files = find_resource_files('tethysapp/' + app_package + '/templates', 'tethysapp/' + app_package)
 resource_files += find_resource_files('tethysapp/' + app_package + '/public', 'tethysapp/' + app_package)
 resource_files += find_resource_files('tethysapp/' + app_package + '/workspaces', 'tethysapp/' + app_package)
+resource_files += find_resource_files('tethysapp/' + app_package + '/resources', 'tethysapp/' + app_package)
 
 
 setup(

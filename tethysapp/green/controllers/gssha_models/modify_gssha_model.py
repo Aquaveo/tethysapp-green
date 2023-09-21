@@ -5,6 +5,7 @@ from tethysext.atcore.exceptions import ModelDatabaseInitializationError, ATCore
 from tethysext.atcore.controllers.app_users import ModifyResource
 from tethysext.atcore.services.model_database import ModelDatabase
 from gsshapyorm.orm import DeclarativeBase as GsshaPyBase, ProjectFile
+from tethysapp.green.services.spatial_manager import GsshaSpatialManager
 from tethysapp.green.app import Green as app
 
 
@@ -42,6 +43,7 @@ class ModifyGsshaModel(ModifyResource):
 
             # Set custom attributes
             resource.set_attribute('database_id', model_db.get_id())
+            session.commit()
 
             # Parse zip
             zip_path = resource.get_attribute('files')[0]
@@ -69,7 +71,7 @@ class ModifyGsshaModel(ModifyResource):
                     project_file = ProjectFile()
                     
                     srid = int(resource.get_attribute('srid'))
-                    project_file.readProject(
+                    project_file.readInput(
                         directory=prj_dir,
                         projectFileName=prj_file,
                         session=model_db_session,
@@ -78,3 +80,16 @@ class ModifyGsshaModel(ModifyResource):
                     )
                 finally:
                     model_db_session.close()
+                
+                # Create GeoServer layers
+                gs_engine = app.get_spatial_dataset_service(
+                    name=app.GEOSERVER_NAME,
+                    as_engine=True
+                )
+                gsm = GsshaSpatialManager(gs_engine)
+                gsm.link_geoserver_to_db(model_db=model_db, reload_config=False)
+                gsm.create_all_layers(
+                    model_db=model_db,
+                    srid=srid,
+                    project_dir=prj_dir,
+                )

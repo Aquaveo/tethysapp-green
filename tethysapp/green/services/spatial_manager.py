@@ -12,7 +12,7 @@ class GsshaSpatialManager(ModelDBSpatialManager):
     Managers GeoServer Layers for GSSHA Projects.
     """
     WORKSPACE = 'green'
-    URI = 'http://portal.aquaveo.com/green'
+    URI = 'http://umip.erdc.dren.mil/green'
     BASE_SCENARIO_ID = 1
     SQL_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources', 'sql_templates')
     SLD_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources', 'sld_templates')
