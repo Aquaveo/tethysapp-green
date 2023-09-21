@@ -9,9 +9,9 @@ class Green(TethysAppBase):
     Tethys app class for GSSHA Regions for Envrionmental Engineering with Nature.
     """
 
-    name = 'GSSHA Regions for Envrionmental Engineering with Nature'
+    name = 'GSSHA Regions for Environmental Engineering with Nature'
     index = 'green:home'
-    icon = 'green/images/icon.gif'
+    icon = 'green/images/green_250x250.png'
     package = 'green'
     root_url = 'green'
     color = '#77b57f'
@@ -78,12 +78,16 @@ class Green(TethysAppBase):
 
     def url_maps(self):
         """Add controllers"""
+        from tethysapp.green.controllers.map_view import GreenMapView
+        from tethysapp.green.services.home_map_manager import HomeMapManager
+        from tethysapp.green.services.spatial_manager import GsshaSpatialManager
         from tethysext.atcore.services.app_users.permissions_manager import AppPermissionsManager
-        from tethysext.atcore.urls import app_users, spatial_reference, resources
+        from tethysext.atcore.urls import app_users, spatial_reference
         from tethysapp.green.models import GreenOrganization, GsshaModel
         from tethysapp.green.controllers.gssha_models import (
             GsshaModelDetails, ManageGsshaModels, ModifyGsshaModel
         )
+
         UrlMap = url_map_maker(self.root_url)
 
         url_maps = []
@@ -91,7 +95,15 @@ class Green(TethysAppBase):
             UrlMap(
                 name='home',
                 url='green',
-                controller='green.controllers.home'
+                controller=GreenMapView.as_controller(
+                    geoserver_name=self.GEOSERVER_NAME,
+                    _app=self,
+                    _persistent_store_name=self.DATABASE_NAME,
+                    _MapManager=HomeMapManager,
+                    _Organization=GreenOrganization,
+                    _Resource=GsshaModel,
+                    _SpatialManager=GsshaSpatialManager,
+                ),
             ),
         )
 

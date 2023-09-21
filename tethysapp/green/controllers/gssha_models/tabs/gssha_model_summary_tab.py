@@ -11,7 +11,8 @@ class GsshaModelSummaryTab(ResourceSummaryTab):
         # Build spatial manager
         gs_engine = self.get_app().get_spatial_dataset_service(self.get_app().GEOSERVER_NAME, as_engine=True)
         spatial_manager = GsshaSpatialManager(geoserver_engine=gs_engine)
-        return GreenMapManager(spatial_manager=spatial_manager, resource=resource)
+        model_db = self.get_model_db(request=request, resource=resource)
+        return GreenMapManager(spatial_manager=spatial_manager, model_db=model_db)
 
     def get_summary_tab_info(self, request, session, resource, *args, **kwargs):
         """Define GSSHA specific summary info.

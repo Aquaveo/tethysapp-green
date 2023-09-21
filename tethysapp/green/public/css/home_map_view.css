@@ -1,0 +1,35 @@
+#back-button {
+    display: none!important;
+}
+
+#nav-header #nav-title {
+    margin-left: 0!important;
+}
+
+#app-content-wrapper #app-content {
+    padding-bottom: 0;
+}
+
+#app-content-wrapper #app-content #app-actions {
+    display: none;
+}
+
+.cesium-viewer-animationContainer {
+    bottom: 0!important;
+}
+
+.cesium-viewer-bottom {
+    bottom: 30px!important;
+}
+
+.cesium-viewer-timelineContainer {
+    bottom: 0px!important;
+}
+
+.cesium-viewer-fullscreenContainer {
+    bottom: 0px!important;
+}
+
+#app-content-wrapper #vr-button-container {
+    display: none;
+}

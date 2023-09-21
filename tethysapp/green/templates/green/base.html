@@ -13,17 +13,7 @@
 {% block app_title %}{{ tethys_app.name }}{% endblock %}
 
 {% block app_navigation_items %}
-  {% url 'green:home' as green_home_url %}
-  {% url 'green:gssha_models_manage_resources' as gssha_manage_resources_url %}
-  {% url 'green:app_users_manage_users' as manage_users_url %}
-  {% url 'green:app_users_manage_organizations' as manage_organizations_url %}
-  {% url 'green:app_users_user_account' as user_account_url %}
-  
-  <li {% if request.path == green_home_url %}class="active"{% endif %}><a href="{{ green_home_url }}">Map</a></li>
-  <li {% if request.path == gssha_manage_resources_url %}class="active"{% endif %}><a href="{{ gssha_manage_resources_url }}">Models</a></li>
-  <li {% if request.path == manage_users_url %}class="active"{% endif %}><a href="{{ manage_users_url }}">Users</a></li>
-  <li {% if request.path == manage_organizations_url %}class="active"{% endif %}><a href="{{ manage_organizations_url }}">Organizations</a></li>
-  <li {% if request.path == user_account_url %}class="active"{% endif %}><a href="{{ user_account_url }}">My Account</a></li>
+  {% include 'green/nav.html' %}
 {% endblock %}
 
 

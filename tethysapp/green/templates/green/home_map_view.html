@@ -1,0 +1,24 @@
+{% extends 'atcore/map_view/map_view.html' %}
+{% load static %}
+
+{% block custom_map_tabs %}
+    <li role="presentation">
+        <a id="nav-tab-toggle"
+            href="#nav-tab-panel"
+            aria-controls="nav-tab-panel"
+            aria-selected="true"
+            role="tab"
+            data-toggle="tab">Navigation</a>
+    </li>
+{% endblock %}
+
+{% block custom_map_tab_panels %}
+    <div role="tabpanel" class="tab-pane" id="nav-tab-panel">
+        {% include 'green/nav.html' %}
+    </div>
+{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'green/css/home_map_view.css' %}">
+{% endblock %}
