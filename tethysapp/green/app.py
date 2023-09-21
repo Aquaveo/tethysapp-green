@@ -107,6 +107,14 @@ class Green(TethysAppBase):
             ),
         )
 
+        url_maps.append(
+            UrlMap(
+                name='gssha_compare_resources',
+                url='green/compare_resources',
+                controller='green.controllers.compare_map_view.compare',
+            ),
+        )
+
         app_users_urls = app_users.urls(
             url_map_maker=UrlMap,
             app=self,
