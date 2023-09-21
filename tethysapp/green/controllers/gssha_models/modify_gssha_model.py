@@ -30,10 +30,7 @@ class ModifyGsshaModel(ModifyResource):
             editing(bool): True if editing, False if creating a new resource.
         """
         if not editing:
-            # put resource creation logic here
-            # load files into database
-            # create geoserver layers
-            # Create a new model database
+            # TODO: move this to a background process/thread (dask? celery? htcondor?)
             model_db = ModelDatabase(app=app)
             model_db_success = model_db.initialize(declarative_bases=(GsshaPyBase,), spatial=True)
 
