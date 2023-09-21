@@ -36,6 +36,7 @@ def compare(request):
 
     context = {
         'cesium_map_view': cesium_map_view,
+        'cesium_ion_token': cesium_ion_token,
     }
 
     return render(request, 'green/compare.html', context)

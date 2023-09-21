@@ -74,6 +74,8 @@ class HomeMapManager(MapManagerBase):
             
             for gssha_model in gssha_models:
                 database_id = gssha_model.get_attribute('database_id')
+                if not database_id:
+                    continue
                 model_db = ModelDatabase(app=app, database_id=database_id)
 
                 # Compose model boundary layer
