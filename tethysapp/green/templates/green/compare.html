@@ -8,14 +8,35 @@
 {# Use the after_app_content block for modals #}
 {% block after_app_content %}
   <div hidden id="cesium_ion_token">{{cesium_ion_token}}</div>
+  <div hidden id="gs_endpoint">{{gs_endpoint}}</div>
 {% endblock %}
 
 {% block app_content %}
   {% comment %} {% gizmo cesium_map_view %} {% endcomment %}
 
-  <div id="cesiumContainer" class="fullSize">
-    <div id="view3DL"></div>
-    <div id="view3DR"></div>
+  <div id="big-div">
+    <div id="cesiumContainer">
+      <div class='lcol'>
+        <select name="selectL" id="selectL">
+          {% for data in ddl %}
+            <option value="{{data.1}}">{{data.0}}</option>
+          {% endfor %}
+          {% comment %} <option value="defaulta" selected>DefaultA</option>
+          <option value="defaultb">DefaultB</option> {% endcomment %}
+        </select>
+        <div id="view3DL" class='cesium-map-view'></div>
+      </div>
+      <div class='rcol'>
+        <select name="selectR" id="selectR">
+          {% for data in ddl %}
+            <option value="{{data.1}}">{{data.0}}</option>
+          {% endfor %}
+          {% comment %} <option value="defaulta">DefaultA</option>
+          <option value="defaultb" selected>DefaultB</option> {% endcomment %}
+        </select>
+        <div id="view3DR" class='cesium-map-view'></div>
+      </div>
+    </div>
   </div>
 {% endblock %}
 

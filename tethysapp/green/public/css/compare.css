@@ -11,22 +11,55 @@
   padding-bottom: 0px;
 }
 
-/* #app-content-wrapper #app-content #app-actions {
+#app-content-wrapper #app-content #app-actions {
   visibility: hidden;
-} */
+}
 
 /* Begin Rules */
+#big-div {
+  display: flex;
+  width: 100%;
+  height: 80%;
+/*   padding-top: 20px; */
+  align-items: center;
+  justify-content: center;
+/*   outline: solid 5px black; */
+}
 
 #cesiumContainer {
   display: flex;
-  width: 100%;
-  height: 800px;
+  width: 90%;
+  height: 700px;
 }
-#view3DL {
+
+.lcol {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+/*   justify-content: center; */
+}
+
+.rcol {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+/*   justify-content: center; */
+}
+
+/* #view3DL {
   display: inline-block;
   width: 100%;
+  height: 100%;
 }
 #view3DR {
   display: inline-block;
   width: 100%;
+  height: 100%;
+} */
+
+.cesium-map-view {
+  display: inline-block;
+  width: 100%;
+  height: 95%;
+/*   height: 600px; */
 }
