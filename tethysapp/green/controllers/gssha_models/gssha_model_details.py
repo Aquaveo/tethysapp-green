@@ -13,7 +13,10 @@ class GsshaModelDetails(TabbedResourceDetails):
     Controller for gssha model details page(s).
     """
     base_template = 'green/base.html'
+    template_name = 'green/gssha_model_viewer.html'
+
     tabs = (
         {'slug': 'summary', 'title': 'Summary', 'view': GsshaModelSummaryTab},
         {'slug': 'workflows', 'title': 'Workflows', 'view': GsshaModelWorkflowsTab},
+
     )

@@ -80,6 +80,7 @@ class Green(TethysAppBase):
         """Add controllers"""
         from tethysapp.green.controllers.map_view import GreenMapView
         from tethysapp.green.services.home_map_manager import HomeMapManager
+        from tethysapp.green.services.model_map_manager import ModelMapManager
         from tethysapp.green.services.spatial_manager import GsshaSpatialManager
         from tethysext.atcore.services.app_users.permissions_manager import AppPermissionsManager
         from tethysext.atcore.urls import app_users, spatial_reference
@@ -100,6 +101,22 @@ class Green(TethysAppBase):
                     _app=self,
                     _persistent_store_name=self.DATABASE_NAME,
                     _MapManager=HomeMapManager,
+                    _Organization=GreenOrganization,
+                    _Resource=GsshaModel,
+                    _SpatialManager=GsshaSpatialManager,
+                ),
+            ),
+        )
+
+        url_maps.append(
+            UrlMap(
+                name='resource_map',
+                url='green/resource_map/{resource_id}',
+                controller=GreenMapView.as_controller(
+                    geoserver_name=self.GEOSERVER_NAME,
+                    _app=self,
+                    _persistent_store_name=self.DATABASE_NAME,
+                    _MapManager=ModelMapManager,
                     _Organization=GreenOrganization,
                     _Resource=GsshaModel,
                     _SpatialManager=GsshaSpatialManager,

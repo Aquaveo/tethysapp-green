@@ -4,6 +4,8 @@ from tethysext.atcore.controllers.app_users import ManageResources
 
 
 class ManageGsshaModels(ManageResources):
+    template_name = 'green/gssha_model_manager.html'
+
     def get_launch_url(self, request, resource):
         """
         Get the URL for the Resource Launch button.

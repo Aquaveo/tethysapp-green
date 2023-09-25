@@ -1,0 +1,60 @@
+{% extends 'atcore/resources/tabbed_resource_details.html' %}
+{% load static %}
+
+{% block app_content %}
+{% for message in messages %}
+  <div class="alert {% if message.tags %}{{ message.tags }}{% endif %} alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert">
+      <span aria-hidden="true">&times;</span>
+      <span class="sr-only">Close</span>
+    </button>
+    {{ message }}
+  </div>
+{% endfor %}
+<h1>{{ resource.name }}</h1>
+<!-- Tabs -->
+<ul class="nav nav-tabs" role="tablist">
+  {% for tab in tabs %}
+  <li role="presentation" class="lazy-load-tab"
+      data-callback="{{ tab.view.post_load_callback }}">
+    <a href="#{{ tab.slug }}"
+       aria-controls="tab.slug"
+       role="tab"
+       data-toggle="tab">{{ tab.title }}</a>
+  </li>
+  {% endfor %}
+
+    <li role="presentation" class="lazy-load-tab">
+    <a href="#map_viewer"
+       aria-controls="tab.slug"
+       role="tab"
+       data-toggle="tab">Map Viewer</a>
+  </li>
+
+
+
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  {% for tab in tabs %}
+  <div role="tabpanel" class="tab-pane" id="{{ tab.slug }}">
+    <div class="center-parent">
+      <img src="{% static 'atcore/images/loading.gif' %}" class="loading-gif centered">
+    </div>
+  </div>
+  {% endfor %}
+    <div role="tabpanel" class="tab-pane" id="#map_viewer">
+        <div class="center-parent">
+        </div>
+    </div>
+
+
+
+</div>
+
+<div id="lazy-load-config" data-active-tab="{{ active_tab }}"></div>
+
+
+
+{% endblock %}
